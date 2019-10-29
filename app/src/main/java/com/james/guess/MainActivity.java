@@ -1,13 +1,16 @@
 package com.james.guess;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +25,8 @@ TextView result;
 int answer;
 Random random = new Random();
 int secret = random.nextInt(10) + 1;
+int secret2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,7 @@ int secret = random.nextInt(10) + 1;
         setSupportActionBar(toolbar);
         guess = findViewById(R.id.guess);
         result = findViewById(R.id.result);
+        Log.d("hi","sec1"+secret);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -44,10 +50,33 @@ public void enter(View view){
     answer = Integer.parseInt(guess.getText().toString());
     if(answer > secret){
 result.setText("smaller");
+        new AlertDialog.Builder(MainActivity.this)
+        .setTitle("OLAOLA")
+        .setMessage("smaller")
+        .setPositiveButton("OK",null)
+        .show();
     }else if(answer < secret){
         result.setText("bigger");
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("MUDAMUDA")
+                .setMessage("bigger")
+                .setPositiveButton("OK",null)
+                .show();
     }else{
         result.setText("bingo");
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("WRYYYYYYYY")
+                .setMessage("bingo")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        secret2 = random.nextInt(10) + 1;
+                        secret = secret2;
+                        Log.d("hi","sec2"+ secret2);
+
+                    }
+                })
+                .show();
     }
 
 }
